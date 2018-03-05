@@ -1,0 +1,49 @@
+#route:
+#    receiver: 'slack'
+#
+#receivers:
+#    - name: 'slack'
+#      slack_configs:
+#          - send_resolved: true
+#            username: '<username>'
+#            channel: '#<channel-name>'
+#            api_url: '<incomming-webhook-url>'
+#
+route:
+ group_by: [cluster]
+ # If an alert isn't caught by a route, send it to the pager.
+ receiver: team-pager
+ routes:
+  # Send severity=page alerts to the pager.
+  - match:
+      severity: page
+    receiver: team-pager
+
+#receivers:
+#- name: team-pager
+#  pagerduty_configs:
+#  - service_key: 02fef9f58e8c4749b4422491b7a2773a
+#    details: {firing: testing template}
+#
+
+#receivers:
+#- name: team-pager
+#  pagerduty_configs:
+#  - service_key: 02fef9f58e8c4749b4422491b7a2773a
+#    description: '{{ template "pagerduty.myorg" . }}'
+#
+
+receivers:
+- name: team-pager
+  pagerduty_configs:
+  - service_key: 02fef9f58e8c4749b4422491b7a2773a
+    description: Test {{ template "pagerduty.default.description" . }}
+
+#receivers:
+#- name: team-pager
+#  pagerduty_configs:
+#  - service_key: 02fef9f58e8c4749b4422491b7a2773a
+#    details: {firing: '{{ template "pagerduty.test" .Alerts.Firing }}'}
+
+templates:
+- '/etc/alertmanager/templates/myorg.tmpl'
