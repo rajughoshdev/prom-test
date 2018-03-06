@@ -1,4 +1,1 @@
-{{ define "pagerduty.test"  }}Pagerduty Alert Test 
-Summary: {{ .Annotations.summary }}
-Description: {{ .Annotations.description }}
-{{ end }}
+{{ define "pagerduty.test"  }}({{ with .CommonLabels.Remove .GroupLabels.Names  }}{{ .Values | join " "  }}{{ end  }}){ end  }}{{ end  }}

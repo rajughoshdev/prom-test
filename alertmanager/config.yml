@@ -30,20 +30,29 @@ route:
 #- name: team-pager
 #  pagerduty_configs:
 #  - service_key: 02fef9f58e8c4749b4422491b7a2773a
-#    description: '{{ template "pagerduty.myorg" . }}'
-#
+#    description: 'RabbitMQ{{ template "pagerduty.test" .  }}'
 
 receivers:
 - name: team-pager
   pagerduty_configs:
   - service_key: 02fef9f58e8c4749b4422491b7a2773a
-    description: Test {{ template "pagerduty.default.description" . }}
+#    description: '{{ template "pagerdutytest" . }}{{ define "pagerdutytest"  }}{{ template "pagerduty.default.description" .  }}{{ end  }}' 
+#    description: '{{ template "pagerdutytest" . }}{{ define "pagerdutytest"  }}{{ with .CommonLabels.Remove .GroupLabels.Names  }}{{ .Values  | join " "  }}{{ end  }}{{ end  }}'
+#    description: '{{ template "pagerdutytest" . }}{{ define "pagerdutytest"  }}{{ range $index, $topping :=  .GroupLabels.Names }}{{ if eq $index "instance" $topping }}{{ end  }}{{ end  }}{{ end  }}'
+#    description: '{{ template "pagerdutytest" .  }}{{ define "pagerdutytest"   }}{{ with .CommonLabels.Remove .GroupLabels.Names   }}{{ range $key, $value := .Values   }}{{ $key  }}{{ end  }}{{ end  }}{{ end  }}'
+    description: '{{ template "pagerdutytest" .  }}{{ define "pagerdutytest"   }}{{ with .CommonLabels.Remove .GroupLabels.Names   }}{{ range $key, $value := .Values   }}{{ if eq  $key 3  }} {{ $value  }} {{ end  }}{{ end  }}{{ end   }}{{ end   }}'
 
+#receivers:
+#- name: team-pager
+#  pagerduty_configs:
+#  - service_key: 02fef9f58e8c4749b4422491b7a2773a
+#    description: Test {{ template "pagerduty.default.description" . }}
+#
 #receivers:
 #- name: team-pager
 #  pagerduty_configs:
 #  - service_key: 02fef9f58e8c4749b4422491b7a2773a
 #    details: {firing: '{{ template "pagerduty.test" .Alerts.Firing }}'}
 
-templates:
-- '/etc/alertmanager/templates/myorg.tmpl'
+#templates:
+#- '/etc/alertmanager/templates/myorg.tmpl'
